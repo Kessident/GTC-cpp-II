@@ -18,25 +18,27 @@ int main() {
     cout << "---Printing out values on IntStack--\n";
     stack.print();
 
-    cout << "Popping values off the IntStack--\n";
+    cout << "---Popping values off the IntStack--\n";
     for (int i = 0; i < STACK_SIZE; ++i) {
         cout << stack.pop() << endl;
     }
 
 
-    Stack<int> otherStack (STACK_SIZE);
+    Stack<string> otherStack (STACK_SIZE);
+    string toBeAdded ("");
     cout << "---Pushing value onto the Stack---\n";
     for (int i = 0; i < STACK_SIZE; ++i) {
-        cout << to_string(i) << endl;
-        stack.push(i);
+        toBeAdded += "a";
+        cout << toBeAdded << endl;
+        otherStack.push(toBeAdded);
     }
 
     cout << "---Printing out values on Stack--\n";
-    stack.print();
+    otherStack.print();
 
-    cout << "Popping values off the Stack--\n";
+    cout << "---Popping values off the Stack--\n";
     for (int i = 0; i < STACK_SIZE; ++i) {
-        cout << stack.pop() << endl;
+        cout << otherStack.pop() << endl;
     }
     return 0;
 }

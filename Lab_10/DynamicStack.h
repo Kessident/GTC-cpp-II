@@ -5,9 +5,11 @@
 #ifndef LAB_10_DYNAMICSTACK_H
 #define LAB_10_DYNAMICSTACK_H
 
-
+template <class T>
 class DynamicStack {
+private:
 
+public:
 };
 
 

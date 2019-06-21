@@ -29,7 +29,7 @@ public:
 
     void push(T);
 
-    T pop();
+    void pop(T &);
 
     int size() {
         return numNodes;
@@ -88,17 +88,16 @@ void DynamicStack<T>::push(T value) {
 //Pops off first node and returns its value
 //Returns nullptr if empty
 template<class T>
-T DynamicStack<T>::pop() {
+void DynamicStack<T>::pop(T & item) {
     StackNode *temp = nullptr;
 
     if (isEmpty()) {
-        return temp->value;
+        std::cout << "Stack is empty";
     } else {
-        T information = top->value;
+        item = top->value;
         temp = top->next;
         delete top;
         top = temp;
-        return information;
     }
 
     numNodes--;

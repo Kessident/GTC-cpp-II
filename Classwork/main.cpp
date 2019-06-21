@@ -24,7 +24,7 @@ int main() {
     }
 
 
-    
+
     Stack<string> stackTemp (STACK_SIZE);
     string toBeAdded = ("");
     cout << "---Pushing value onto the Stack---\n";

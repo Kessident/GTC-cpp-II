@@ -5,12 +5,122 @@
 #ifndef LAB_10_DYNAMICSTACK_H
 #define LAB_10_DYNAMICSTACK_H
 
-template <class T>
+template<class T>
 class DynamicStack {
 private:
-
+    struct StackNode {
+        T value;
+        StackNode *next;
+    };
+    StackNode *top;
+    int numNodes;
 public:
+    //Constructor
+    DynamicStack() {
+        top = nullptr;
+        numNodes = 0;
+    };
+
+    //Copy Constructor
+    DynamicStack(DynamicStack &);
+
+    //Destructor
+    ~DynamicStack();
+
+    void push(T);
+
+    T pop();
+
+    int size() {
+        return numNodes;
+    }
+
+    bool isEmpty() {
+        return top == nullptr;
+    };
+
+    void print();
 };
+
+//Copy Constructor
+template<class T>
+DynamicStack<T>::DynamicStack(DynamicStack &obj) {
+    StackNode *nodePtr = obj.head;
+    while (nodePtr) {
+        push(nodePtr->value);
+        nodePtr = nodePtr->next;
+    }
+    numNodes = obj.numNodes;
+}
+
+//Destructor
+template<class T>
+DynamicStack<T>::~DynamicStack() {
+    StackNode *nodePtr;
+    StackNode *next;
+
+    nodePtr = top;
+
+    while (nodePtr != nullptr) {
+        next = nodePtr->next;
+        delete nodePtr;
+        nodePtr = next;
+    }
+}
+
+template<class T>
+void DynamicStack<T>::push(T value) {
+    StackNode *newNode = nullptr;
+
+    newNode = new StackNode;
+    newNode->value = value;
+
+    if (isEmpty()) {
+        top = newNode;
+        newNode->next = nullptr;
+    } else {
+        newNode->next = top;
+        top = newNode;
+    }
+    numNodes++;
+}
+
+//Pops off first node and returns its value
+//Returns nullptr if empty
+template<class T>
+T DynamicStack<T>::pop() {
+    StackNode *temp = nullptr;
+
+    if (isEmpty()) {
+        return temp->value;
+    } else {
+        T information = top->value;
+        temp = top->next;
+        delete top;
+        top = temp;
+        return information;
+    }
+
+    numNodes--;
+}
+
+template<class T>
+void DynamicStack<T>::print() {
+    //
+    StackNode *nodePtr = nullptr;
+
+    if (top) {
+        nodePtr = top;
+
+        //While nodes exist
+        while (nodePtr){
+            std::cout << nodePtr->value << std::endl; // Print out value
+            nodePtr = nodePtr->next; // Advance pointer
+        }
+    } else {
+        std::cout << "No values\n";
+    }
+}
 
 
 #endif //LAB_10_DYNAMICSTACK_H

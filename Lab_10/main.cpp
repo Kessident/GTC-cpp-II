@@ -1,5 +1,38 @@
 //Charles Dodge
 //CIST 2362 CRN 63228
+//Lab 10  Static Queue
+
+#include "StaticQueue.h"
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+int const QUEUE_SIZE = 5;
+int main() {
+    StaticQueue<int> queue (QUEUE_SIZE);
+
+//    cout << queue.dequeue();
+
+    cout << "---adding items to queue---\n";
+    for (int i = 0; i < QUEUE_SIZE; ++i) {
+        cout << i << endl;
+        queue.enqueue(i);
+    }
+
+    cout << "---Just one more---\n";
+    queue.enqueue(5);
+
+    cout << "---values are---\n";
+    while (!queue.isEmpty()) {
+        cout << queue.dequeue() << endl;
+    }
+
+    cout << "---Remove one more---\n";
+    queue.dequeue();
+    return 0;
+}
+
 
 /*
 //Lab 10 Dynamic Stack Template

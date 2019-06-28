@@ -71,8 +71,8 @@ int main() {
 
 //Reads in Flight schedules and Reservations from files
 void initData() {
-    ifstream flightSchedule;
-    flightSchedule.open("flight-schedule.txt", ios::in);
+    ifstream flightScheduleFile;
+    flightScheduleFile.open("flight-schedule.txt", ios::in);
 
     Flight newFlight;
 
@@ -86,16 +86,16 @@ void initData() {
     int freqFlyMiles;
 
     //Reads in flight information, stores flight in flightList
-    while (!flightSchedule.eof()) {
+    while (!flightScheduleFile.eof()) {
 
-        flightSchedule >> flightID;
-        flightSchedule >> departingFrom;
-        flightSchedule >> arrivingAt;
-        flightSchedule >> departTime;
-        flightSchedule >> arrivalTime;
-        flightSchedule >> flightNum;
-        flightSchedule >> aircraftType;
-        flightSchedule >> freqFlyMiles;
+        flightScheduleFile >> flightID;
+        flightScheduleFile >> departingFrom;
+        flightScheduleFile >> arrivingAt;
+        flightScheduleFile >> departTime;
+        flightScheduleFile >> arrivalTime;
+        flightScheduleFile >> flightNum;
+        flightScheduleFile >> aircraftType;
+        flightScheduleFile >> freqFlyMiles;
 
         newFlight.setFlightId(flightID);
         newFlight.setDepartingFrom(departingFrom);
@@ -109,11 +109,13 @@ void initData() {
         flightList.push_back(newFlight);
     }
 
+    flightScheduleFile.close();
+
 
 
     //Flight Reservation Information
-    ifstream reservations;
-    reservations.open("reservations.txt", ios::in);
+    ifstream reservationsFile;
+    reservationsFile.open("reservations.txt", ios::in);
 
     Reservation newRes;
 
@@ -121,10 +123,10 @@ void initData() {
     string passengerName,
             seatAssignment;
 
-    while (!reservations.eof()) {
-        reservations >> flightID;
-        getline(reservations, passengerName, ',');
-        getline(reservations, seatAssignment, '\n');
+    while (!reservationsFile.eof()) {
+        reservationsFile >> flightID;
+        getline(reservationsFile, passengerName, ',');
+        getline(reservationsFile, seatAssignment, '\n');
 
         newRes.setFlightId(flightID);
         newRes.setPassengerName(passengerName);
@@ -132,6 +134,8 @@ void initData() {
 
         reservationList.push_back(newRes);
     }
+
+    reservationsFile.close();
 }
 
 //Saves Reservation data on user choice or quit

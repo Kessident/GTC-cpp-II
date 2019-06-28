@@ -2,6 +2,7 @@
 //CIST 2362 CRN 63228
 //FInal Project
 #include <iostream>
+#include <iomanip>
 #include <vector>
 #include <fstream>
 #include <algorithm>
@@ -127,6 +128,7 @@ void initData() {
         reservationsFile >> flightID;
         getline(reservationsFile, passengerName, ',');
         getline(reservationsFile, seatAssignment, '\n');
+        reservationsFile.get(); //Consume newline character
 
         newRes.setFlightId(flightID);
         newRes.setPassengerName(passengerName);

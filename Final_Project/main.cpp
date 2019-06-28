@@ -16,13 +16,28 @@ vector<Reservation> reservationList;
 
 //Reads in flight and reservation information from 'flight-schedule.txt' and 'reservations.txt'
 void initData();
+
 void saveData();
+
 void bookReservation();
+
 void cancelReservation();
+
 void displayBoardingPass();
+
 void displayFlightSchedule();
+
 void displayAvailableCities();
+
 void listPassengers();
+
+bool validateCity(const string &);
+
+string convertCityToCode(const string &);
+
+bool flightIsFull(const Flight &);
+
+void bookReservationOnFlight(const string &, const Flight &);
 
 int main() {
     initData();
@@ -39,6 +54,7 @@ int main() {
              << "7 - Save reservation data\n"
              << "Anything else to exit: ";
         cin >> userChoice;
+        cin.get(); // Consume newline
 
         switch (userChoice) {
             case 1:
@@ -142,8 +158,6 @@ void initData() {
 
 //Saves Reservation data on user choice or quit
 void saveData() {
-//Save Reservation Information to "reservations.txt"
-//###NAME,SEAT
     ofstream outputFile;
     outputFile.open("reservations.txt", ios::out);
 
@@ -155,11 +169,61 @@ void saveData() {
     cout << "Reservations saved\n";
 }
 
-//
+//Get Departing and Arrival City, arrival time optional, and Passenger name
+//Book into first valid flight
 void bookReservation() {
-    //Departing city
-    //Arrival city
-    //Arrival Time - LATEST
+    string name, departing, arriving, time;
+    cout << "Enter passenger's name: ";
+    getline(cin, name, '\n');
+
+    cout << "What city are we departing from?\n"
+         << "Enter city code or full name: ";
+    getline(cin, departing, '\n');
+
+    while (!validateCity(departing)) {
+        cout << "Invalid entry: ";
+        getline(cin, departing, '\n');
+    }
+
+
+    cout << "What city are we arriving at?\n"
+         << "Enter city code or full name: ";
+    getline(cin, arriving, '\n');
+
+    while (!validateCity(arriving)) {
+        cout << "Invalid entry: ";
+        getline(cin, arriving, '\n');
+    }
+
+
+    cout << "Enter requested arrival time, 0 if arrival time does not matter\n"
+         << "24 hr format, ##:##\n";
+    getline(cin, time, '\n');
+    //Validate time format
+
+    string departingCode, arrivingCode;
+    departingCode = convertCityToCode(departing);
+    arrivingCode = convertCityToCode(arriving);
+
+    vector<Flight> possibleFlights;
+    for (const Flight &flight : flightList) {
+        if (flight.getDepartingFrom() == departingCode && flight.getArrivingAt() == arrivingCode) {
+
+            //Check that arrival time of flight is later than requested, if requested
+            if (time != "0" || flight.getArrivalTime() > time) {
+                possibleFlights.push_back(flight);
+            }
+        }
+    }
+
+
+    for (const Flight &f : possibleFlights) {
+        if (!flightIsFull(f)) {
+            bookReservationOnFlight(name, f);
+        }
+    }
+
+
     //Passenger name
 //Your system must make sure that a flight is not overbook, and if a flight is booked it should suggest other flights to the same destination.
 //Verify departing->arrival valid
@@ -225,7 +289,7 @@ void displayFlightSchedule() {
                 break;
         }
 
-
+//TODO Actually Display Schedule
     }
 }
 
@@ -235,4 +299,93 @@ void displayAvailableCities() {
 
 void listPassengers() {
 //Display all flights, get choice, display all reservations with same flightID
+}
+
+//
+//Helpers
+//
+
+//Validates that a given string is a valid city for departures or arrivals
+bool validateCity(const string &city) {
+    bool isValid = false;
+    for (const auto &cities : Flight::availableCities) {
+        //Checks against both city code and full name
+        if (city == cities.first || city == cities.second) {
+            isValid = true;
+        }
+    }
+
+    return isValid;
+}
+
+//Returns city code of cities
+string convertCityToCode(const string &city) {
+    if (city.length() == 3)
+        return city;
+    auto it = Flight::availableCities.find(city);
+    return it->second;
+}
+
+bool flightIsFull(const Flight &flight) {
+    int reservationsOnFlight = 0;
+
+    for (const Reservation &r : reservationList) {
+        if (r.getFlightId() == flight.getFlightId())
+            reservationsOnFlight++;
+    }
+
+    if (flight.getAircraftType() == 'A') {
+        //20 possible seats on type 'A'
+        return reservationsOnFlight == 20;
+
+    } else {
+        //15 possible seats on type 'B'
+        return reservationsOnFlight == 15;
+    }
+}
+
+void bookReservationOnFlight(const string &name, const Flight &flight) {
+    Reservation newRes(flight.getFlightId(), name, "");
+
+    vector<Reservation> reservationsOnFlight;
+
+    for (const Reservation r : reservationList) {
+        if (r.getFlightId() == flight.getFlightId()) {
+            reservationsOnFlight.push_back(r);
+        }
+    }
+
+    if (reservationsOnFlight.empty()) {
+        newRes.setSeatAssignment("1A");
+
+
+    } else {
+        sort(reservationsOnFlight.begin(), reservationsOnFlight.end(), Reservation::sortBySeat);
+
+        //Last reservation
+        string lastSeat = (*(reservationsOnFlight.end() - 1)).getSeatAssignment();
+        string newSeat;
+
+        switch (lastSeat[1]) {
+            case 'A':
+                newSeat = to_string(lastSeat[0]) + 'B';
+                break;
+            case 'B':
+                newSeat = to_string(lastSeat[0]) + 'C';
+                break;
+            case 'C':
+                if (flight.getAircraftType() == 'B') {
+                    newSeat = to_string(lastSeat[0] + 1) + 'A';
+                } else {
+                    newSeat = to_string(lastSeat[0]) + 'D';
+                }
+                break;
+            case 'D':
+                newSeat = to_string(lastSeat[0] + 1) + 'A';
+                break;
+        }
+    }
+
+
+    reservationList.push_back(newRes);
 }

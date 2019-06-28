@@ -80,7 +80,6 @@ public:
 
     friend ostream &operator<<(ostream &os, const Flight &flight);
 
-    static bool sortByFlightID(const Flight&, const Flight&);
     static bool sortByDeparting(const Flight&, const Flight&);
     static bool sortByArriving(const Flight&, const Flight&);
     static bool sortByDepartTime(const Flight&, const Flight&);

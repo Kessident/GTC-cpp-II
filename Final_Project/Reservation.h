@@ -28,18 +28,17 @@ public:
     }
 
     int getFlightId() const { return flightID; }
-
     void setFlightId(int flightId_) { flightID = flightId_; }
-
     const std::string &getPassengerName() const { return passengerName; }
-
     void setPassengerName(const std::string &passengerName_) { this->passengerName = passengerName_; }
-
     const std::string &getSeatAssignment() const { return seatAssignment; }
-
     void setSeatAssignment(const std::string &seatAssignment_) { this->seatAssignment = seatAssignment_; }
 
     friend std::ostream &operator<<(std::ostream &, const Reservation &);
+
+    static bool sortByFlightID(const Reservation&, const Reservation&);
+    static bool sortBySeat(const Reservation &, const Reservation &);
+
 };
 
 

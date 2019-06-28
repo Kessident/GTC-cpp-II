@@ -45,9 +45,6 @@ ostream &operator<<(ostream &os, const Flight &flight) {
 
 
 //Custom Sorting Function
-bool Flight::sortByFlightID(const Flight &f1, const Flight &f2) {
-    return f1.flightID > f2.flightID;
-}
 bool Flight::sortByDeparting(const Flight &f1, const Flight &f2) {
     return f1.departingFrom > f2.departingFrom;
 }

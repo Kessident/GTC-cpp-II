@@ -77,11 +77,11 @@ bool Flight::sortByFreqFlyMiles(const Flight &f1, const Flight &f2) {
 }
 
 map<string, string> Flight::availableCities = {
-        {"ATL", "Atlanta"},
-        {"CHI", "Chicago"},
-        {"DFW", "Dallas/Fort Worth"},
-        {"HAW", "Hawaii"},
-        {"LAX", "Los Angeles"},
-        {"NYC", "New York City"},
-        {"ORL", "Orlando"}
+        {"Atlanta", "ATL"},
+        {"Chicago", "CHI"},
+        {"Dallas/Fort Worth", "DFW"},
+        {"Hawaii", "HAW"},
+        {"Los Angeles", "LAX"},
+        {"New York City", "NYC"},
+        {"Orlando", "ORL"}
 };

@@ -144,6 +144,15 @@ void initData() {
 void saveData() {
 //Save Reservation Information to "reservations.txt"
 //###NAME,SEAT
+    ofstream outputFile;
+    outputFile.open("reservations.txt", ios::out);
+
+    for (const auto &res : reservationList) {
+        outputFile << setw(3) << setfill('0');
+        outputFile << res << endl;
+    }
+
+    cout << "Reservations saved\n";
 }
 
 //

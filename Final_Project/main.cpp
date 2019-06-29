@@ -284,11 +284,13 @@ void cancelReservation() {
     for (const Reservation &r : reservationList) {
         if (!cancelled && r.getPassengerName() == nameToCancel) {
             resToCancel = r;
+            cancelled = true;
         }
     }
 
     if (cancelled) {
-        remove(reservationList.begin(), reservationList.end(), resToCancel);
+        auto reservationPos = find(reservationList.begin(), reservationList.end(), resToCancel);
+        reservationList.erase(reservationPos);
 
         cout << "Reservation for " << nameToCancel << " cancelled\n"
              << "If " << nameToCancel << " has multiple reservations they want to cancel\n"
@@ -299,6 +301,15 @@ void cancelReservation() {
 }
 
 void displayBoardingPass() {
+    string passengerName;
+    cout << "Whose boarding pass are we displaying?: ";
+    getline(cin, passengerName, '\n');
+
+    for (const Reservation &r : reservationList) {
+        if (r.getPassengerName() == passengerName) {
+            //TODO display boarding pass
+        }
+    }
     //Flight Schedule
     //Seat Assignment
 //All boarding passes for passenger NAME

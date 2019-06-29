@@ -80,13 +80,20 @@ public:
 
     friend ostream &operator<<(ostream &os, const Flight &flight);
 
-    static bool sortByDeparting(const Flight&, const Flight&);
-    static bool sortByArriving(const Flight&, const Flight&);
-    static bool sortByDepartTime(const Flight&, const Flight&);
-    static bool sortByArrivalTime(const Flight&, const Flight&);
-    static bool sortByFlightNum(const Flight&, const Flight&);
-    static bool sortByAirType(const Flight&, const Flight&);
-    static bool sortByFreqFlyMiles(const Flight&, const Flight&);
+    static bool sortByDepartingDesc(const Flight&, const Flight&);
+    static bool sortByArrivingDesc(const Flight&, const Flight&);
+    static bool sortByDepartTimeDesc(const Flight&, const Flight&);
+    static bool sortByArrivalTimeDesc(const Flight&, const Flight&);
+    static bool sortByFlightNumDesc(const Flight&, const Flight&);
+    static bool sortByAirTypeDesc(const Flight&, const Flight&);
+    static bool sortByFreqFlyMilesDesc(const Flight&, const Flight&);
+    static bool sortByDepartingAsc(const Flight&, const Flight&);
+    static bool sortByArrivingAsc(const Flight&, const Flight&);
+    static bool sortByDepartTimeAsc(const Flight&, const Flight&);
+    static bool sortByArrivalTimeAsc(const Flight&, const Flight&);
+    static bool sortByFlightNumAsc(const Flight&, const Flight&);
+    static bool sortByAirTypeAsc(const Flight&, const Flight&);
+    static bool sortByFreqFlyMilesAsc(const Flight&, const Flight&);
 
     static map<string, string> availableCities;
 };

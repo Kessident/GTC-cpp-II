@@ -16,28 +16,19 @@ vector<Reservation> reservationList;
 
 //Reads in flight and reservation information from 'flight-schedule.txt' and 'reservations.txt'
 void initData();
-
 void saveData();
-
 void bookReservation();
-
 void cancelReservation();
-
 void displayBoardingPass();
-
 void displayFlightSchedule();
-
 void displayAvailableCities();
-
 void listPassengers();
 
+
 bool validateCity(const string &);
-
 string convertCityToCode(const string &);
-
 bool flightIsFull(const Flight &);
 
-void bookReservationOnFlight(const string &, const Flight &);
 
 int main() {
     initData();
@@ -172,6 +163,7 @@ void saveData() {
 //Get Departing and Arrival City, arrival time optional, and Passenger name
 //Book into first valid flight
 void bookReservation() {
+    //Get passenger information, NAME, departing city, arrival city, latest arrival time
     string name, departing, arriving, time;
     cout << "Enter passenger's name: ";
     getline(cin, name, '\n');
@@ -199,12 +191,14 @@ void bookReservation() {
     cout << "Enter requested arrival time, 0 if arrival time does not matter\n"
          << "24 hr format, ##:##\n";
     getline(cin, time, '\n');
-    //Validate time format
+    //TODO Validate time format
 
+    //Convert departing/arrival city into proper codes if needed
     string departingCode, arrivingCode;
     departingCode = convertCityToCode(departing);
     arrivingCode = convertCityToCode(arriving);
 
+    //Get all flights from departure city to arrival city landing before arrival time
     vector<Flight> possibleFlights;
     for (const Flight &flight : flightList) {
         if (flight.getDepartingFrom() == departingCode && flight.getArrivingAt() == arrivingCode) {
@@ -216,29 +210,98 @@ void bookReservation() {
         }
     }
 
+    bool flightNotBooked = true;
 
-    for (const Flight &f : possibleFlights) {
-        if (!flightIsFull(f)) {
-            bookReservationOnFlight(name, f);
+    for (const Flight &flight : possibleFlights) {
+        if (!flightIsFull(flight) && flightNotBooked) {
+            Reservation newRes(flight.getFlightId(), name, "");
+
+            vector<Reservation> reservationsOnFlight;
+
+            for (const Reservation &r : reservationList) {
+                if (r.getFlightId() == flight.getFlightId()) {
+                    reservationsOnFlight.push_back(r);
+                }
+            }
+
+            if (reservationsOnFlight.empty()) {
+                newRes.setSeatAssignment("1A");
+
+
+            } else {
+                sort(reservationsOnFlight.begin(), reservationsOnFlight.end(), Reservation::sortBySeat);
+
+                //Last reservation
+                string lastSeat = (*(reservationsOnFlight.end() - 1)).getSeatAssignment();
+                string newSeat;
+
+                switch (lastSeat[1]) {
+                    case 'A':
+                        newSeat = to_string(lastSeat[0]) + 'B';
+                        break;
+                    case 'B':
+                        newSeat = to_string(lastSeat[0]) + 'C';
+                        break;
+                    case 'C':
+                        if (flight.getAircraftType() == 'B') {
+                            newSeat = to_string(lastSeat[0] + 1) + 'A';
+                        } else {
+                            newSeat = to_string(lastSeat[0]) + 'D';
+                        }
+                        break;
+                    case 'D':
+                        newSeat = to_string(lastSeat[0] + 1) + 'A';
+                        break;
+                }
+            }
+
+
+            reservationList.push_back(newRes);
+            flightNotBooked = false;
+            cout << "Flight booked\n";
+        }
+
+        //no valid flights from Depart->Arrive
+        if (flightNotBooked) {
+            cout << "There are no flights with open seats from " << departingCode << " to " << arrivingCode << ".\n";
         }
     }
 
 
-    //Passenger name
 //Your system must make sure that a flight is not overbook, and if a flight is booked it should suggest other flights to the same destination.
-//Verify departing->arrival valid
-//verify latest arrival time available
 }
 
+//Cancels the first reservation where given name matches name on the reservation
 void cancelReservation() {
-//Name
-//Give choice of which to cancel
+    string nameToCancel;
+    cout << "What name is on the reservation? ";
+    getline(cin, nameToCancel, '\n');
+
+    bool cancelled = false;
+
+    Reservation resToCancel;
+
+    for (const Reservation &r : reservationList) {
+        if (!cancelled && r.getPassengerName() == nameToCancel) {
+            resToCancel = r;
+        }
+    }
+
+    if (cancelled) {
+        remove(reservationList.begin(), reservationList.end(), resToCancel);
+
+        cout << "Reservation for " << nameToCancel << " cancelled\n"
+             << "If " << nameToCancel << " has multiple reservations they want to cancel\n"
+             << "Run this again.\n";
+    } else {
+        cout << "No reservations found under the name " << nameToCancel << ".\n";
+    }
 }
 
 void displayBoardingPass() {
     //Flight Schedule
     //Seat Assignment
-
+//All boarding passes for passenger NAME
 //The boarding pass should include the flight details including the seat number and the number of frequent flyer miles that can be earned.
 }
 
@@ -342,50 +405,4 @@ bool flightIsFull(const Flight &flight) {
         //15 possible seats on type 'B'
         return reservationsOnFlight == 15;
     }
-}
-
-void bookReservationOnFlight(const string &name, const Flight &flight) {
-    Reservation newRes(flight.getFlightId(), name, "");
-
-    vector<Reservation> reservationsOnFlight;
-
-    for (const Reservation r : reservationList) {
-        if (r.getFlightId() == flight.getFlightId()) {
-            reservationsOnFlight.push_back(r);
-        }
-    }
-
-    if (reservationsOnFlight.empty()) {
-        newRes.setSeatAssignment("1A");
-
-
-    } else {
-        sort(reservationsOnFlight.begin(), reservationsOnFlight.end(), Reservation::sortBySeat);
-
-        //Last reservation
-        string lastSeat = (*(reservationsOnFlight.end() - 1)).getSeatAssignment();
-        string newSeat;
-
-        switch (lastSeat[1]) {
-            case 'A':
-                newSeat = to_string(lastSeat[0]) + 'B';
-                break;
-            case 'B':
-                newSeat = to_string(lastSeat[0]) + 'C';
-                break;
-            case 'C':
-                if (flight.getAircraftType() == 'B') {
-                    newSeat = to_string(lastSeat[0] + 1) + 'A';
-                } else {
-                    newSeat = to_string(lastSeat[0]) + 'D';
-                }
-                break;
-            case 'D':
-                newSeat = to_string(lastSeat[0] + 1) + 'A';
-                break;
-        }
-    }
-
-
-    reservationList.push_back(newRes);
 }

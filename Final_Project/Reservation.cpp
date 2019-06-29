@@ -10,12 +10,17 @@ std::ostream &operator<<(std::ostream &os, const Reservation &r) {
 }
 
 bool Reservation::sortByFlightID(const Reservation &r1, const Reservation &r2) {
-    return r1.flightID > r2.flightID;
+    return r1.flightID < r2.flightID;
 }
 
 bool Reservation::sortBySeat(const Reservation &r1, const Reservation &r2) {
-    return r1.seatAssignment > r2.seatAssignment;
+    return r1.seatAssignment < r2.seatAssignment;
 }
+bool Reservation::sortByName(const Reservation &r1, const Reservation &r2) {
+    return r1.passengerName < r2.passengerName;
+}
+
+
 
 bool Reservation::operator==(const std::string &rhs) const {
     return passengerName == rhs;

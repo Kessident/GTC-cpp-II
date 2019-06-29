@@ -38,6 +38,7 @@ public:
 
     static bool sortByFlightID(const Reservation&, const Reservation&);
     static bool sortBySeat(const Reservation &, const Reservation &);
+    static bool sortByName(const Reservation &, const Reservation &);
 
     bool operator==(const std::string &rhs) const;
     bool operator!=(const std::string &rhs) const;

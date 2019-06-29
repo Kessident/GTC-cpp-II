@@ -285,7 +285,7 @@ void cancelReservation() {
         return;
     }
 
-    
+
     reservationList.erase(foundReservation);
     cout << "Reservation for " << nameToCancel << " cancelled\n"
          << "If " << nameToCancel << " has multiple reservations they want to cancel\n"
@@ -404,6 +404,9 @@ void displayFlightSchedule() {
                     sort(flightList.begin(), flightList.end(), Flight::sortByFreqFlyMilesAsc);
                 }
                 break;
+            //This should never be reached
+            default:
+                return;
         }
     }
 
@@ -477,10 +480,19 @@ void listPassengers() {
         cout << "1 or 2: ";
     }
 
-    //TODO Sort, display
+    if (howSort == 1) {
+        sort(foundReservations.begin(), foundReservations.end(), Reservation::sortByName);
+    } else {
+        sort(foundReservations.begin(), foundReservations.end(), Reservation::sortBySeat);
+    }
 
+    //Header
+    cout << "----Reservations on flight " << flightNumber << "----\n"
+         << "Seat    Name\n";
 
-//Display all flights, get choice, display all reservations with same flightID
+    for (const Reservation &r : foundReservations) {
+        cout << " " << r.getSeatAssignment() << "     " << r.getPassengerName() << endl;
+    }
 }
 
 //

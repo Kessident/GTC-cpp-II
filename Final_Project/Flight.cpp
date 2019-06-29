@@ -1,6 +1,6 @@
-//
-// Created by Charles Dodge on 2019-06-27.
-//
+//Charles Dodge
+//CIST 2362 CRN 63228
+//FInal Project - Airline Reservation System
 
 #include "Flight.h"
 

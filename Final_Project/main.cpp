@@ -1,6 +1,6 @@
 //Charles Dodge
 //CIST 2362 CRN 63228
-//FInal Project
+//FInal Project - Airline Reservation System
 #include <iostream>
 #include <iomanip>
 #include <vector>

@@ -95,6 +95,7 @@ public:
     static bool sortByAirTypeAsc(const Flight&, const Flight&);
     static bool sortByFreqFlyMilesAsc(const Flight&, const Flight&);
 
+
     static map<string, string> availableCities;
 };
 

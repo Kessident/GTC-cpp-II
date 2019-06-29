@@ -277,27 +277,19 @@ void cancelReservation() {
     cout << "What name is on the reservation? ";
     getline(cin, nameToCancel, '\n');
 
-    bool cancelled = false;
+    auto foundReservation = find(reservationList.begin(), reservationList.end(), nameToCancel);
 
-    Reservation resToCancel;
-
-    for (const Reservation &r : reservationList) {
-        if (!cancelled && r.getPassengerName() == nameToCancel) {
-            resToCancel = r;
-            cancelled = true;
-        }
-    }
-
-    if (cancelled) {
-        auto reservationPos = find(reservationList.begin(), reservationList.end(), resToCancel);
-        reservationList.erase(reservationPos);
-
-        cout << "Reservation for " << nameToCancel << " cancelled\n"
-             << "If " << nameToCancel << " has multiple reservations they want to cancel\n"
-             << "Run this again.\n";
-    } else {
+    //Checks if a reservation was found
+    if (foundReservation == reservationList.end()) {
         cout << "No reservations found under the name " << nameToCancel << ".\n";
+        return;
     }
+
+    
+    reservationList.erase(foundReservation);
+    cout << "Reservation for " << nameToCancel << " cancelled\n"
+         << "If " << nameToCancel << " has multiple reservations they want to cancel\n"
+         << "Run this again.\n";
 }
 
 //Displays all boarding passes for a given person
@@ -431,11 +423,63 @@ void displayFlightSchedule() {
 
 }
 
+//Displays all Cities with their respective codes
 void displayAvailableCities() {
-//loop through Flight::availableCities
+    cout << "---Available Cities---\n";
+    for (const auto &city : Flight::availableCities) {
+        cout << " " << city.second << "   " << city.first << endl;
+    }
 }
 
+//Displays all passengers on a given flight, according to its Flight Number
 void listPassengers() {
+    int flightNumber;
+    cout << "Enter a flight Number: ";
+    cin >> flightNumber;
+
+    //Validate Int input
+    while (cin.fail()) {
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cout << "Please enter a flight number: ";
+        cin >> flightNumber;
+    }
+
+    //Find flight with user input flight number
+    auto foundFlightIter = find(flightList.begin(), flightList.end(), flightNumber);
+
+    //No flight Found
+    if (foundFlightIter == flightList.end()) {
+      cout << "No flight with flight number " << flightNumber << " found.\n";
+      return;
+    }
+
+    //vector to hold found reservations
+    vector<Reservation> foundReservations;
+
+    //Get pointer to found flight from iterator
+    Flight* foundFlight = &*foundFlightIter;
+    for (const Reservation &r : reservationList) {
+        if (r.getFlightId() == foundFlight->getFlightId()) {
+            foundReservations.push_back(r);
+        }
+    }
+
+    //Sort foundReservations
+    int howSort;
+    cout << "1 - sort by name\n"
+         << "2 - sort by seat\n";
+    cin >> howSort;
+    //Validate int input, X == 1 OR 2
+    while (cin.fail() || howSort < 1 || howSort > 2) {
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cout << "1 or 2: ";
+    }
+
+    //TODO Sort, display
+
+
 //Display all flights, get choice, display all reservations with same flightID
 }
 

@@ -300,6 +300,7 @@ void cancelReservation() {
     }
 }
 
+//Displays all boarding passes for a given person
 void displayBoardingPass() {
     string passengerName;
     cout << "Whose boarding pass are we displaying?: ";

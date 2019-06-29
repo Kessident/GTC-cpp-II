@@ -330,11 +330,11 @@ void displayFlightSchedule() {
 
     if (userChoice == 2) {
         userChoice = 0;
-        cout << "1 - sort by Departing City\n"
-             << "2 - sort by Destination\n"
+        cout << "1 - sort by Flight Number\n"
+             << "2 - sort by Departing City\n"
              << "3 - sort by Departure Time\n"
-             << "4 - sort by Arrival Time\n"
-             << "5 - sort by Flight Number\n"
+             << "4 - sort by Destination\n"
+             << "5 - sort by Arrival Time\n"
              << "6 - sort by Aircraft Type\n"
              << "7 - sort by Frequent Flyer Miles\n";
         cin >> userChoice;
@@ -361,61 +361,68 @@ void displayFlightSchedule() {
 
         switch (userChoice) {
             case 1:
-                if (ascOrDesc)
-                    {sort(flightList.begin(), flightList.end(), Flight::sortByDepartingDesc);}
-                else
-                    {sort(flightList.begin(), flightList.end(), Flight::sortByDepartingAsc);}
+                if (ascOrDesc) {
+                    sort(flightList.begin(), flightList.end(), Flight::sortByFlightNumDesc);
+                } else {
+                    sort(flightList.begin(), flightList.end(), Flight::sortByFlightNumAsc);
+                }
                 break;
             case 2:
-                if (ascOrDesc)
-                    {sort(flightList.begin(), flightList.end(), Flight::sortByArrivingDesc);}
-                else
-                    {sort(flightList.begin(), flightList.end(), Flight::sortByArrivingAsc);}
+                if (ascOrDesc) {
+                    sort(flightList.begin(), flightList.end(), Flight::sortByDepartingDesc);
+                } else {
+                    sort(flightList.begin(), flightList.end(), Flight::sortByDepartingAsc);
+                }
                 break;
             case 3:
-                if (ascOrDesc)
-                    {sort(flightList.begin(), flightList.end(), Flight::sortByDepartTimeDesc);}
-                else
-                    {sort(flightList.begin(), flightList.end(), Flight::sortByDepartTimeAsc);}
+                if (ascOrDesc) {
+                    sort(flightList.begin(), flightList.end(), Flight::sortByDepartTimeDesc);
+                } else {
+                    sort(flightList.begin(), flightList.end(), Flight::sortByDepartTimeAsc);
+                }
                 break;
             case 4:
-                if (ascOrDesc)
-                    {sort(flightList.begin(), flightList.end(), Flight::sortByArrivalTimeDesc);}
-                else
-                    {sort(flightList.begin(), flightList.end(), Flight::sortByArrivalTimeAsc);}
+                if (ascOrDesc) {
+                    sort(flightList.begin(), flightList.end(), Flight::sortByArrivingDesc);
+                } else {
+                    sort(flightList.begin(), flightList.end(), Flight::sortByArrivingAsc);
+                }
                 break;
             case 5:
-                if (ascOrDesc)
-                    {sort(flightList.begin(), flightList.end(), Flight::sortByFlightNumDesc);}
-                else
-                    {sort(flightList.begin(), flightList.end(), Flight::sortByFlightNumAsc);}
+                if (ascOrDesc) {
+                    sort(flightList.begin(), flightList.end(), Flight::sortByArrivalTimeDesc);
+                } else {
+                    sort(flightList.begin(), flightList.end(), Flight::sortByArrivalTimeAsc);
+                }
                 break;
             case 6:
-                if (ascOrDesc)
-                    {sort(flightList.begin(), flightList.end(), Flight::sortByAirTypeDesc);}
-                else
-                    {sort(flightList.begin(), flightList.end(), Flight::sortByAirTypeAsc);}
+                if (ascOrDesc) {
+                    sort(flightList.begin(), flightList.end(), Flight::sortByAirTypeDesc);
+                } else {
+                    sort(flightList.begin(), flightList.end(), Flight::sortByAirTypeAsc);
+                }
                 break;
             case 7:
-                if (ascOrDesc)
-                    {sort(flightList.begin(), flightList.end(), Flight::sortByFreqFlyMilesDesc);}
-                else
-                    {sort(flightList.begin(), flightList.end(), Flight::sortByFreqFlyMilesAsc);}
+                if (ascOrDesc) {
+                    sort(flightList.begin(), flightList.end(), Flight::sortByFreqFlyMilesDesc);
+                } else {
+                    sort(flightList.begin(), flightList.end(), Flight::sortByFreqFlyMilesAsc);
+                }
                 break;
         }
-
     }
 
-    cout << "\nFlight Number    " << "Departing City    " << "Time    " << "Destination    " << "Time    " << "Type    " << "Points    \n";
+    cout << "\nFlight Number    " << "Departing City    " << "Time    " << "Destination    " << "Time    " << "Type    "
+         << "Points    \n";
     for (const Flight &f : flightList) {
         cout << "  " << left
              << setw(17) << f.getFlightNum()
              << setw(16) << f.getDepartingFrom()
-             << setw(10)  << f.getDepartTime()
+             << setw(10) << f.getDepartTime()
              << setw(13) << f.getArrivingAt()
-             << setw(10)  << f.getArrivalTime()
-             << setw(8)  << f.getAircraftType()
-             << setw(9)  << f.getFreqFlyMiles()
+             << setw(10) << f.getArrivalTime()
+             << setw(8) << f.getAircraftType()
+             << setw(9) << f.getFreqFlyMiles()
              << endl;
     }
 

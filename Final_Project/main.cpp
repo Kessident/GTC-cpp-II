@@ -322,6 +322,8 @@ void displayBoardingPass() {
     }
 }
 
+//Display the Flight Schedule
+//Optional sorting available, ascending or descending
 void displayFlightSchedule() {
     cout << "1 to display all flight schedules\n"
          << "2 to sort flight schedules before displaying\n";

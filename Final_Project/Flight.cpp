@@ -113,10 +113,17 @@ map<string, string> Flight::availableCities = {
         {"Orlando",           "ORL"}
 };
 
-bool Flight::operator==(const Flight &rhs) const {
-    return flightNum == rhs.flightNum;
+//Used to find a flight by flightNum
+bool Flight::operator==(const int &rhs) const {
+    return flightNum == rhs;
+}
+bool Flight::operator!=(const int &rhs) const {
+    return flightNum != rhs;
 }
 
+bool Flight::operator==(const Flight &rhs) const {
+    return flightID == rhs.flightID;
+}
 bool Flight::operator!=(const Flight &rhs) const {
     return !(rhs == *this);
 }

@@ -95,8 +95,10 @@ public:
     static bool sortByAirTypeAsc(const Flight&, const Flight&);
     static bool sortByFreqFlyMilesAsc(const Flight&, const Flight&);
 
-    bool operator==(const Flight &rhs) const;
+    bool operator==(const int &rhs) const;
+    bool operator!=(const int &rhs) const;
 
+    bool operator==(const Flight &rhs) const;
     bool operator!=(const Flight &rhs) const;
 
     static map<string, string> availableCities;

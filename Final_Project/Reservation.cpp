@@ -17,8 +17,18 @@ bool Reservation::sortBySeat(const Reservation &r1, const Reservation &r2) {
     return r1.seatAssignment > r2.seatAssignment;
 }
 
+bool Reservation::operator==(const std::string &rhs) const {
+    return passengerName == rhs;
+}
+
+bool Reservation::operator!=(const std::string &rhs) const {
+    return passengerName != rhs;
+}
+
 bool Reservation::operator==(const Reservation &rhs) const {
-    return passengerName == rhs.passengerName;
+    return flightID == rhs.flightID &&
+           passengerName == rhs.passengerName &&
+           seatAssignment == rhs.seatAssignment;
 }
 
 bool Reservation::operator!=(const Reservation &rhs) const {

@@ -39,6 +39,9 @@ public:
     static bool sortByFlightID(const Reservation&, const Reservation&);
     static bool sortBySeat(const Reservation &, const Reservation &);
 
+    bool operator==(const Reservation &rhs) const;
+
+    bool operator!=(const Reservation &rhs) const;
 };
 
 

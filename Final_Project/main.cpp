@@ -307,13 +307,19 @@ void displayBoardingPass() {
 
     for (const Reservation &r : reservationList) {
         if (r.getPassengerName() == passengerName) {
-            //TODO display boarding pass
+            Flight *flightOn = &flightList[r.getFlightId()];
+            cout << left << setfill('-') << setw(52) << "" << endl << setfill(' ')
+                 << setw(26) <<         "- Passenger Name"          << setw(25) << "Flight Number" << right << "-\n" << "-   "
+                 << setw(22) << left << r.getPassengerName()        << setw(0) << "  " << setw(23) << flightOn->getFlightNum() << "-\n"
+                 << setw(26) <<         "- Seat Number"             << setw(25) << "Frequent Fly Points" << right << "-\n" << "-   "
+                 << setw(22) << left << r.getSeatAssignment()       << setw(0) << "  " << setw(23) << flightOn->getFreqFlyMiles() << "-\n"
+                 << setw(26) <<         "- Departure City"          << setw(25) << "Arrival City" << right << "-\n" << "-   "
+                 << setw(22) << left << flightOn->getDepartingFrom()<< setw(0) << "  " << setw(23) << flightOn->getArrivingAt() << "-\n"
+                 << setw(26) <<         "- Departure Time"          << setw(25) << "Arrival Time" << right << "-\n" << "-   "
+                 << setw(22) << left << flightOn->getDepartTime()   << setw(0) << "  " << setw(23) << flightOn->getArrivalTime() << "-\n"
+                 << setw(52) << setfill('-') << "" << endl;
         }
     }
-    //Flight Schedule
-    //Seat Assignment
-//All boarding passes for passenger NAME
-//The boarding pass should include the flight details including the seat number and the number of frequent flyer miles that can be earned.
 }
 
 void displayFlightSchedule() {

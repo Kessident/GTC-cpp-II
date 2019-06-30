@@ -1,21 +1,142 @@
 //Charles Dodge
 //CIST 2362 CRN 63228
+
+
+/*
+//Lab 11 isMember
+
+#include <iostream>
+#include <array>
+
+using namespace std;
+
+template<class T>
+bool isMember(T[], int, T);
+
+const int SIZE = 10;
+
+
+int main() {
+    int array[SIZE] = {77, 2, 61, 88, 84, 45, 22, 24, 3, 67};
+
+    int num;
+    while (true) {
+        cout << "Enter a number to search for (-1 to exit): ";
+        cin >> num;
+
+        while (cin.fail()) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Enter a number to search for: ";
+            cin >> num;
+        }
+
+        if (num == -1)
+            return 0;
+
+        if (isMember(array, SIZE, num)) {
+            cout << num << " is part of the array" << endl;
+        } else {
+            cout << num << " is not part of the array" << endl;
+        }
+    }
+}
+
+template<class T>
+bool isMember(T array[], int size, T obj) {
+    //If at end, false
+    if (*array == array[size]) {
+        return false;
+    }
+
+    //If found, true
+    if (*array == obj) {
+        return true;
+        //else increment, try again
+    } else {
+        return isMember(array + 1, size, obj);
+    }
+}*/
+
+
+/*
+//Lab 11 Sum of Numbers
+#include <iostream>
+
+using namespace std;
+
+double sumOf(int);
+
+int main(){
+    while (true) {
+        int num;
+        cout << "Enter a positive number or 0 to exit: ";
+        cin >> num;
+
+        while (cin.fail() || num < 0) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Please enter a positive number: ";
+            cin >> num;
+        }
+
+        if (num == 0)
+            return 0;
+
+        cout << "Σn from 1 to " << num << " = " << sumOf(num) << endl;
+    }
+}
+
+//Return sum of numbers from 1 -> num
+double sumOf(int num) {
+    if (num <= 0)
+        return 0;
+    return num + sumOf(num - 1);
+}*/
+
+
+/*
 //Lab 11 Recursion Power Function
 #include <iostream>
+
+using namespace std;
 
 double pow(int, int);
 
 int main() {
     //2^2
-    std::cout << "2^2: " << pow(2, 2) << std::endl;
+    cout << "2^2: " << pow(2, 2) << endl;
     //4^9
-    std::cout << "4^9: " << pow(4, 9) << std::endl;
+    cout << "4^9: " << pow(4, 9) << endl;
     //3^100
-    std::cout << "3^100: " << pow(3, 100) << std::endl;
+    cout << "3^100: " << pow(3, 100) << endl;
+
     while (true) {
-        
+        int base, exponent;
+        cout << "Enter a number (0 to exit): ";
+        cin >> base;
+
+        while(cin.fail()) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Please enter a number: ";
+            cin >> base;
+        }
+
+        if (base == 0)
+            return 0;
+
+        cout << "Enter another number: ";
+        cin >> exponent;
+        while(cin.fail()) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Please enter a number: ";
+            cin >> exponent;
+        }
+
+        cout << base << "^" << exponent << " = " << pow(base, exponent) << endl;
     }
-    return 0;
 }
 
 double pow(int base, int exp) {
@@ -27,8 +148,10 @@ double pow(int base, int exp) {
     } else {
         return base * pow(base, exp - 1);
     }
-}/*
+}*/
 
+
+/*
 #include <iostream>
 #include <vector>
 
@@ -49,16 +172,16 @@ const int MAX_SIZE = 1000000000;
 double result[MAX_SIZE] = {0};
 
 int main() {
-    auto overallStart = chrono::high_resolution_clock::now();
+    auto start = chrono::high_resolution_clock::now();
 
     for (int i = 1; i < 100000; i++) {
         addUpForm(i);
     }
 
 
-    auto overallEnd = chrono::high_resolution_clock::now();
-    auto durationMicro = chrono::duration_cast<chrono::microseconds>(overallEnd - overallStart).count();
-    auto duration = chrono::duration_cast<chrono::seconds>(overallEnd - overallStart).count();
+    auto end = chrono::high_resolution_clock::now();
+    auto durationMicro = chrono::duration_cast<chrono::microseconds>(end - start).count();
+    auto durationSeconds = chrono::duration_cast<chrono::seconds>(end - start).count();
 
     cout << "Execution time (microseconds): " << durationMicro << endl;
 
@@ -96,24 +219,4 @@ double addUp(int num) {
 
 double addUpForm(int n) {
     return (n * (n + 1)) / 2.0;
-}
-
-void addUpExample(int num) {
-    auto start = chrono::high_resolution_clock::now();
-
-    cout << "Sum of numbers from 0 - " << num << " recursively: " << addUp(num) << endl;
-    auto end = chrono::high_resolution_clock::now();
-    auto durationMicro = chrono::duration_cast<chrono::microseconds>(end - start).count();
-
-    cout << "Execution time (microseconds): " << durationMicro << endl;
-
-
-    start = chrono::high_resolution_clock::now();
-
-    cout << "Sum of numbers 0 - " << num << " using formula: " << addUpForm(num) << endl;
-
-    end = chrono::high_resolution_clock::now();
-    durationMicro = chrono::duration_cast<chrono::microseconds>(end - start).count();
-
-    cout << "Execution time (microseconds): " << durationMicro << endl << endl;
-}*/
+} */
